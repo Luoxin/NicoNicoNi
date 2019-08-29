@@ -3,7 +3,7 @@ import time
 import threading
 
 
-class Cache:
+class MemoryCache:
     def __init__(self, ttl: int = 5 * 60, max_size: int = 10 * 1024 * 1024):
         """
          :param ttl: The effective time
