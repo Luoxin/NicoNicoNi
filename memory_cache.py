@@ -3,13 +3,13 @@ import time
 import threading
 
 
-class Cache:
+class MemoryCache:
     def __init__(self, ttl: int = 5 * 60, max_size: int = 10 * 1024 * 1024):
         """
-         :param ttl The effective time
+         :param ttl: The effective time
                         unit: s
                         default: 5 min
-         :param max_size Maximum memory value that can withstand
+         :param max_size: Maximum memory value that can withstand
                         unit: bytes
                         default: 10 Mb
         """
@@ -61,7 +61,7 @@ class Cache:
         :param ttl: The effective time
                         unit: s
         :param value:
-        :param dead_time Dead time
+        :param dead_time: Dead time
 
         """
         try:
