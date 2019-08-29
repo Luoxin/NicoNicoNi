@@ -19,19 +19,19 @@ def get_file_list_by_file_path(root_dir_path: str = os.getcwd(), recursion: bool
 
     TODO: Returns file/folder details
     """
-    def add_with_path(root: str, sub_path: str):
+    def add_with_path(sup_dir_path: str, sub_path: str):
         """ Add the found file path and ensure that the path does not repeat
-        :param root: 
+        :param sup_dir_path:
         :param sub_path: 
         :return: 
         """
         if only_show_postfix:
-            if os.path.isfile(os.path.join(root, sub_path)):
+            if os.path.isfile(os.path.join(sup_dir_path, sub_path)):
                 file = os.path.splitext(sub_path)[-1]
         else:
-            file = os.path.join(root, sub_path)
+            file = os.path.join(sup_dir_path, sub_path)
         
-        if root == "" or path == "" or file == "":
+        if sup_dir_path == "" or path == "" or file == "":
             return
         
         if file not in result_set:
