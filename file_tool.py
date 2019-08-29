@@ -1,7 +1,7 @@
 import os
 
 
-def get_file_list_by_file_path(root_dir_path: str = os.getcwd(), recursion: bool = False,
+def get_file_list_by_dir_path(root_dir_path: str = os.getcwd(), recursion: bool = False,
                                show_file: bool = True, show_dir: bool = True, only_show_postfix: bool = False,
                                sort_type: int = 0, sort_key=None) -> list:
     """ Param show_file displays the file
