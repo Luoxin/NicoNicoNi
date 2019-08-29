@@ -1,6 +1,8 @@
 # NicoNicoNi
 Python toolset
 
+[Link to Chinese(连接到中文)](./README_CN.md)
+
 ## Gtasks
 - [ ] File tools
     - [ ] A list of files under the specified path
