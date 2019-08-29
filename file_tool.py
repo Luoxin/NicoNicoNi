@@ -12,8 +12,8 @@ def get_file_list_by_file_path(root_dir_path: str = os.getcwd(), recursion: bool
     :param only_show_postfix: Whether to show suffixes only
     :param sort_type: Sorting type
                     0 Don't order
-                    1 Letters in ascending order
-                    2 Letters in descending order
+                    1 Not reverse
+                    2 Reverse
     :param sort_key: Sort the comparison element, function sort the key
     :return: listed files
 
