@@ -4,7 +4,8 @@ import threading
 
 
 class MemoryCache:
-    def __init__(self, ttl: int = 5 * 60, max_size: int = 10 * 1024 * 1024, auto_clean_by_dead_time: bool = True):
+    def __init__(self, ttl: int = 5 * 60, max_size: int = 10 * 1024 * 1024,
+                 auto_clean_by_dead_time: bool = True, auto_clean_by_max_size: bool = False):
         """
          :param ttl: The effective time
                         unit: s
@@ -17,6 +18,8 @@ class MemoryCache:
         self.__ttl_cache = {}  # A list of all keys that should be cleared for each end time
         self.__lock = threading.Lock
         self.__size = 0
+
+        self.__auto_clean_by_max_size = auto_clean_by_max_size
 
         if ttl <= 0:
             ttl = 5 * 60
@@ -90,6 +93,9 @@ class MemoryCache:
                 return False
         except:
             return False
+        finally:
+            if self.__auto_clean_by_max_size:
+                self.clean_by_size(self.__max_size)
 
     def add_node_with_dead_time(self, key: (int, float, str), value, dead_time: int = 0) -> bool:
         return self.add_node(key, value, 0, dead_time)
