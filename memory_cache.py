@@ -4,7 +4,7 @@ import threading
 
 
 class MemoryCache:
-    def __init__(self, ttl: int = 5 * 60, max_size: int = 10 * 1024 * 1024):
+    def __init__(self, ttl: int = 5 * 60, max_size: int = 10 * 1024 * 1024, auto_clean_by_dead_time: bool = True):
         """
          :param ttl: The effective time
                         unit: s
@@ -27,9 +27,10 @@ class MemoryCache:
         self.__max_size = max_size
 
         # Periodically clean up stale data
-        clean_timer = threading.Thread(None, self.__clean_timer, None)
-        clean_timer.daemon = True
-        clean_timer.start()
+        if auto_clean_by_dead_time:
+            clean_timer = threading.Thread(None, self.__clean_timer, None)
+            clean_timer.daemon = True
+            clean_timer.start()
 
     def set_ttl(self, ttl: int = 5 * 60):
         if ttl <= 0:
