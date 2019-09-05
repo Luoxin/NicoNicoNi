@@ -2,6 +2,10 @@ import os
 
 
 def get_file_postfix(file_name: str = "") -> str:
+    """
+
+    :type file_name: 
+    """
     return os.path.splitext(file_name)[-1]
 
 
