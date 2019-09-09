@@ -1,10 +1,12 @@
+import os
+import shelve
 import sys
 import time
 import threading
 
 
 class MemoryCache:
-    def __init__(self, ttl: int = 5 * 60, max_size: int = 10 * 1024 * 1024):
+    def __init__(self, ttl: int = 5 * 60, max_size: int = 10 * 1024 * 1024, persistent_path: str = ""):
         """
          :param ttl: The effective time
                         unit: s
@@ -25,6 +27,26 @@ class MemoryCache:
         if max_size <= 0:
             max_size = 10 * 1024 * 1024
         self.__max_size = max_size
+
+        self.__need_persistent = False
+        # if have persistent_path wile save to disk
+        if len(persistent_path) == 0:
+            try:
+                if not os.path.exists(persistent_path):
+                    shelve.open(persistent_path).close()
+                self.__db = shelve.open(persistent_path, flag="c", protocol=2, writeback=True)
+                for key in self.__db.keys():
+                    try:
+                        node = self.__db[key]
+                        if isinstance(node, dict):
+                            value = "" if node.get("value") is None else node.get("value")
+                            dead_time = 0 if node.get("dead_time") is None else node.get("dead_time")
+                            self.add_node_with_dead_time(key=key, value=value, dead_time=dead_time)
+                    except:
+                        pass
+                self.__need_persistent = True
+            except:
+                raise FileNotFoundError(" No such file or directory: {}".format(persistent_path))
 
         # Periodically clean up stale data
         clean_timer = threading.Thread(None, self.__clean_timer, None)
@@ -84,6 +106,9 @@ class MemoryCache:
 
                 self.__size += node["size"]
                 self.__ttl_cache[node.get("dead_time")].append(key)
+                if self.__need_persistent:
+                    self.__db[key] = node
+                    self.__db.sync()
                 return True
             else:
                 return False
@@ -157,6 +182,12 @@ class MemoryCache:
             if key in self.__cache:
                 dead_node = self.__cache.pop(key)
                 self.__size -= dead_node["size"]
+                if self.__need_persistent:
+                    del self.__db[key]
+                    self.__db.sync()
             return True
         except:
             return False
+
+    def get_keys(self) -> list:
+        return list(self.__cache.keys())
