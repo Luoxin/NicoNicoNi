@@ -2,10 +2,6 @@ import os
 
 
 def get_file_postfix(file_name: str = "") -> str:
-    """
-
-    :type file_name: 
-    """
     return os.path.splitext(file_name)[-1]
 
 
@@ -54,7 +50,7 @@ def get_file_list_by_dir_path(root_dir_path: str = os.getcwd(), recursion: bool 
 
     result_set = set()
     try:
-        if len(show_with_postfix_list) > 0 :
+        if len(show_with_postfix_list) > 0:
             is_show_with_postfix = True
         if not os.path.exists(root_dir_path) and os.path.isdir(root_dir_path):
             raise ValueError("can not find path or is not dir")
