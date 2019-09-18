@@ -10,7 +10,7 @@ def get_file_encoding(file_path: str = "") -> str:
             result = file_path.detect(f.read())
         return result.get("encoding")
     except:
-        return ""
+        return None
 
 
 def get_file_postfix(file_name: str = "") -> str:
