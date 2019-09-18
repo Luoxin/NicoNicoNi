@@ -1,6 +1,18 @@
 import os
 
 
+def get_file_encoding(file_path: str = "") -> str:
+    try:
+        if not os.path.exists(file_path):
+            return None
+
+        with open(file_path, 'rb') as f:
+            result = file_path.detect(f.read())
+        return result.get("encoding")
+    except:
+        return ""
+
+
 def get_file_postfix(file_name: str = "") -> str:
     return os.path.splitext(file_name)[-1]
 
