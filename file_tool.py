@@ -1,4 +1,17 @@
 import os
+import chardet
+
+
+def get_file_encoding(file_path: str = ""):
+    try:
+        if not os.path.exists(file_path):
+            return None
+
+        with open(file_path, 'rb') as f:
+            result = chardet.detect(f.read())
+        return result.get("encoding")
+    except:
+        return None
 
 
 def get_file_postfix(file_name: str = "") -> str:
