@@ -38,6 +38,7 @@ def get_file_list_by_dir_path(root_dir_path: str = os.getcwd(), recursion: bool 
 
     TODO: Returns file/folder details
     """
+    is_show_with_postfix = False
 
     def add_with_path(sup_dir_path: str, sub_path: str):
         """ Add the found file path and ensure that the path does not repeat
